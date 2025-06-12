@@ -223,23 +223,42 @@
     <script>
         // Get order details from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const orderData = urlParams.get('order');
+        const orderParam = urlParams.get('order');
         const userId = urlParams.get('user_id');
         
-        // Sample order data (replace with actual data from URL params)
-        const sampleOrder = [
-            '• 3 pcs Large Biko'
-        ];
+        console.log('Order parameter:', orderParam);
+        console.log('User ID:', userId);
         
         // Populate order items
         function populateOrderItems() {
             const orderContainer = document.getElementById('orderItems');
-            const items = orderData ? JSON.parse(decodeURIComponent(orderData)) : sampleOrder;
             
-            items.forEach(item => {
+            // Default order if no parameter
+            let orderText = '• 2 pcs Large Palabok\n• 1 pc Sampelot';
+            
+            // If order parameter exists, use it
+            if (orderParam) {
+                try {
+                    // Try to parse as JSON first
+                    const parsedOrder = JSON.parse(decodeURIComponent(orderParam));
+                    if (Array.isArray(parsedOrder)) {
+                        orderText = parsedOrder.join('\n');
+                    } else {
+                        orderText = parsedOrder;
+                    }
+                } catch (e) {
+                    // If not JSON, use as plain text
+                    orderText = decodeURIComponent(orderParam);
+                }
+            }
+            
+            // Split by lines and create order items
+            const orderLines = orderText.split('\n').filter(line => line.trim());
+            
+            orderLines.forEach(line => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'order-item';
-                itemDiv.textContent = item;
+                itemDiv.textContent = line.trim();
                 orderContainer.appendChild(itemDiv);
             });
         }
@@ -316,15 +335,19 @@
                 order_type: 'pickup'
             };
             
+            console.log('Submitting form data:', formData);
+            
             try {
-                // Send data to your n8n webhook
-                const response = await fetch('https://primary-production-78ec.up.railway.app/webhook-test/form-submission', {
+                // FIXED: Correct webhook URL (removed 'test' from path)
+                const response = await fetch('https://primary-production-78ec.up.railway.app/webhook/form-submission', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(formData)
                 });
+                
+                console.log('Response status:', response.status);
                 
                 if (response.ok) {
                     // Show success
@@ -333,17 +356,23 @@
                     
                     // Close webview after 2 seconds
                     setTimeout(() => {
-                        window.MessengerExtensions.requestCloseBrowser(function success() {
-                            // Webview closed
-                        }, function error(err) {
+                        if (window.MessengerExtensions) {
+                            window.MessengerExtensions.requestCloseBrowser(function success() {
+                                // Webview closed
+                            }, function error(err) {
+                                // Fallback: try to close the window
+                                window.close();
+                            });
+                        } else {
                             // Fallback: try to close the window
                             window.close();
-                        });
+                        }
                     }, 2000);
                 } else {
                     throw new Error('Submission failed');
                 }
             } catch (error) {
+                console.error('Submission error:', error);
                 // Show error
                 alert('Sorry, there was an error submitting your form. Please try again.');
                 document.getElementById('loading').style.display = 'none';
