@@ -234,34 +234,27 @@
             const orderContainer = document.getElementById('orderItems');
             
             // Default order if no parameter (fallback)
-            let orderText = '• 2 pcs Large Palabok\n• 1 pc Sampelot';
+            let orderText = '• 1 pc Large Palabok\n• 1 pc Large Bringhi';
             
             // If order parameter exists, use it
             if (orderParam) {
                 try {
-                    // Decode the URL parameter
+                    // Decode the URL parameter properly
                     let decodedOrder = decodeURIComponent(orderParam);
                     
-                    // Replace URL encoded newlines and clean up
+                    // Handle URL encoding: %5Cn = \n, + = space
                     decodedOrder = decodedOrder
-                        .replace(/\\n/g, '\n')  // Replace \n with actual newlines
-                        .replace(/\+/g, ' ')    // Replace + with spaces
+                        .replace(/%5Cn/g, '\n')     // Replace %5Cn with actual newlines
+                        .replace(/\\n/g, '\n')      // Replace \n with actual newlines  
+                        .replace(/\+/g, ' ')        // Replace + with spaces
                         .trim();
                     
+                    console.log('Original order param:', orderParam);
                     console.log('Decoded order:', decodedOrder);
                     
-                    // Try to parse as JSON first
-                    try {
-                        const parsedOrder = JSON.parse(decodedOrder);
-                        if (Array.isArray(parsedOrder)) {
-                            orderText = parsedOrder.join('\n');
-                        } else {
-                            orderText = parsedOrder;
-                        }
-                    } catch (e) {
-                        // If not JSON, use as plain text
-                        orderText = decodedOrder;
-                    }
+                    // Use the decoded order
+                    orderText = decodedOrder;
+                    
                 } catch (e) {
                     console.error('Error parsing order:', e);
                     // Keep default order if parsing fails
@@ -269,6 +262,9 @@
             }
             
             console.log('Final order text:', orderText);
+            
+            // Clear existing items
+            orderContainer.innerHTML = '';
             
             // Split by lines and create order items
             const orderLines = orderText.split('\n').filter(line => line.trim());
