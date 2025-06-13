@@ -13,7 +13,7 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #FFF8DC;
             min-height: 100vh;
             padding: 20px;
         }
@@ -34,14 +34,69 @@
             padding: 30px 20px;
         }
         
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
+        .logo {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            font-family: 'Arial Black', Arial, sans-serif;
+        }
+        
+        .logo .sogboo-text {
+            color: #1a5c2a;
+        }
+        
+        .logo .eyes {
+            display: inline-block;
+            margin: 0 2px;
+        }
+        
+        .logo .eye {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 4px solid #000;
+            border-radius: 50%;
+            margin: 0 1px;
+            position: relative;
+            vertical-align: middle;
+        }
+        
+        .logo .eye::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #000;
+            border-radius: 50%;
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%);
+        }
+        
+        .logo .eye::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            top: 40%;
+            right: 10%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .logo .dot {
+            color: #1a5c2a;
+            font-size: 48px;
         }
         
         .header p {
             opacity: 0.9;
             font-size: 14px;
+            margin-top: 5px;
         }
         
         .form-container {
@@ -75,26 +130,6 @@
             outline: none;
             border-color: #FF6B35;
             box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
-        }
-        
-        .order-summary {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-left: 4px solid #FF6B35;
-        }
-        
-        .order-summary h3 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        
-        .order-item {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 5px;
         }
         
         .submit-btn {
@@ -165,18 +200,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🍽️ Sogboo</h1>
+            <div class="logo">
+                <span class="sogboo-text">sogb</span><span class="eyes"><span class="eye"></span><span class="eye"></span></span><span class="dot">.</span>
+            </div>
             <p>Complete your order details</p>
         </div>
         
-        <div class="form-container" id="formContainer">
-            <div class="order-summary">
-                <h3>📦 Your Order:</h3>
-                <div id="orderItems">
-                    <!-- Order items will be populated by JavaScript -->
-                </div>
-            </div>
-            
+        <div class="form-container" id="formContainer">            
             <form id="orderForm">
                 <div class="form-group">
                     <label for="name">👤 Full Name</label>
@@ -221,61 +251,11 @@
     </div>
 
     <script>
-        // Get order details from URL parameters
+        // Get user ID from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const orderParam = urlParams.get('order');
         const userId = urlParams.get('user_id');
         
-        console.log('Order parameter:', orderParam);
         console.log('User ID:', userId);
-        
-        // Populate order items
-        function populateOrderItems() {
-            const orderContainer = document.getElementById('orderItems');
-            
-            // Default order if no parameter (fallback)
-            let orderText = '• 1 pc Large Palabok\n• 1 pc Large Bringhi';
-            
-            // If order parameter exists, use it
-            if (orderParam) {
-                try {
-                    // Decode the URL parameter properly
-                    let decodedOrder = decodeURIComponent(orderParam);
-                    
-                    // Handle URL encoding: %5Cn = \n, + = space
-                    decodedOrder = decodedOrder
-                        .replace(/%5Cn/g, '\n')     // Replace %5Cn with actual newlines
-                        .replace(/\\n/g, '\n')      // Replace \n with actual newlines  
-                        .replace(/\+/g, ' ')        // Replace + with spaces
-                        .trim();
-                    
-                    console.log('Original order param:', orderParam);
-                    console.log('Decoded order:', decodedOrder);
-                    
-                    // Use the decoded order
-                    orderText = decodedOrder;
-                    
-                } catch (e) {
-                    console.error('Error parsing order:', e);
-                    // Keep default order if parsing fails
-                }
-            }
-            
-            console.log('Final order text:', orderText);
-            
-            // Clear existing items
-            orderContainer.innerHTML = '';
-            
-            // Split by lines and create order items
-            const orderLines = orderText.split('\n').filter(line => line.trim());
-            
-            orderLines.forEach(line => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'order-item';
-                itemDiv.textContent = line.trim();
-                orderContainer.appendChild(itemDiv);
-            });
-        }
         
         // Set minimum date to today
         function setMinDate() {
@@ -352,7 +332,6 @@
             console.log('Submitting form data:', formData);
             
             try {
-                // FIXED: Correct webhook URL (removed 'test' from path)
                 const response = await fetch('https://primary-production-78ec.up.railway.app/webhook/form-submission', {
                     method: 'POST',
                     headers: {
@@ -395,7 +374,6 @@
         });
         
         // Initialize
-        populateOrderItems();
         setMinDate();
         
         // Load Messenger Extensions SDK
