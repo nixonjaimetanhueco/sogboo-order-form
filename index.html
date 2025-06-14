@@ -101,6 +101,8 @@
         
         .form-container {
             padding: 30px 20px;
+            max-height: 70vh;
+            overflow-y: auto;
         }
         
         .form-group {
@@ -116,7 +118,8 @@
         }
         
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e1e1e1;
@@ -126,10 +129,189 @@
         }
         
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #FF6B35;
             box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .section-title {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 20px -20px;
+            color: #333;
+            font-weight: 700;
+            font-size: 16px;
+            border-left: 4px solid #FF6B35;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .menu-category {
+            margin-bottom: 20px;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .category-title {
+            color: #FF6B35;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 15px;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .category-title:hover {
+            background: #e9ecef;
+        }
+
+        .category-title .dropdown-arrow {
+            transition: transform 0.3s ease;
+            font-size: 16px;
+        }
+
+        .category-title.expanded .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .category-items {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .category-items.expanded {
+            max-height: 1000px;
+            padding: 15px;
+        }
+
+        .menu-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item.selected {
+            border-color: #FF6B35;
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .item-price {
+            color: #FF6B35;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .item-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .size-select {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .qty-btn:hover {
+            background: #FF6B35;
+            color: white;
+            border-color: #FF6B35;
+        }
+
+        .qty-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .qty-input {
+            width: 50px;
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .order-summary {
+            background: #e8f5e8;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .summary-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .summary-total {
+            border-top: 2px solid #28a745;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #28a745;
         }
         
         .submit-btn {
@@ -195,6 +377,39 @@
             color: #28a745;
             margin-bottom: 20px;
         }
+
+        .order-type-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            border-color: #FF6B35;
+            background: rgba(255, 107, 53, 0.1);
+            color: #FF6B35;
+        }
     </style>
 </head>
 <body>
@@ -208,28 +423,80 @@
         
         <div class="form-container" id="formContainer">            
             <form id="orderForm">
+                <!-- Customer Details Section -->
+                <div class="section-title">👤 Customer Information</div>
+                
                 <div class="form-group">
-                    <label for="name">👤 Full Name</label>
+                    <label for="name">Full Name</label>
                     <input type="text" id="name" name="name" required placeholder="Enter your full name">
                     <div class="error" id="nameError">Please enter your full name</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="mobile">📱 Mobile Number</label>
+                    <label for="mobile">Mobile Number</label>
                     <input type="tel" id="mobile" name="mobile" required placeholder="e.g., 77850764">
                     <div class="error" id="mobileError">Please enter a valid mobile number</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="date">📅 Pickup Date</label>
+                    <label for="date">Pickup Date</label>
                     <input type="date" id="date" name="date" required>
                     <div class="error" id="dateError">Please select a pickup date</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="time">🕐 Pickup Time</label>
+                    <label for="time">Pickup Time</label>
                     <input type="time" id="time" name="time" required>
                     <div class="error" id="timeError">Please select a pickup time</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Order Type</label>
+                    <div class="order-type-group">
+                        <div class="radio-option">
+                            <input type="radio" id="pickup" name="order_type" value="pickup" checked>
+                            <label for="pickup">🏪 Pickup</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="delivery" name="order_type" value="delivery">
+                            <label for="delivery">🚚 Delivery</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Selection Section -->
+                <div class="section-title">🍽️ Select Your Items</div>
+                
+                <div class="menu-section" id="menuSection">
+                    <!-- Specialty Dishes -->
+                    <div class="menu-category">
+                        <div class="category-title">🍝 Specialty Dishes</div>
+                        <!-- Menu items will be dynamically generated -->
+                    </div>
+                    
+                    <!-- Kakanin/Kalame -->
+                    <div class="menu-category">
+                        <div class="category-title">🍰 Kakanin / Kalame</div>
+                        <!-- Menu items will be dynamically generated -->
+                    </div>
+                    
+                    <!-- Other Sweets -->
+                    <div class="menu-category">
+                        <div class="category-title">🍬 Other Sweets</div>
+                        <!-- Menu items will be dynamically generated -->
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary" id="orderSummary" style="display: none;">
+                    <div class="summary-title">📋 Order Summary</div>
+                    <div id="summaryItems"></div>
+                    <div class="summary-total">
+                        <div class="summary-item">
+                            <span>Total:</span>
+                            <span id="totalAmount">QAR 0</span>
+                        </div>
+                    </div>
                 </div>
                 
                 <button type="submit" class="submit-btn" id="submitBtn">
@@ -251,11 +518,200 @@
     </div>
 
     <script>
+        // Menu data
+        const menuData = {
+            'Specialty Dishes': [
+                { name: 'Palabok', prices: { Medium: 100, Large: 150 } },
+                { name: 'Pancit Guisado', prices: { Medium: 100, Large: 130 } },
+                { name: 'Bringhi', prices: { Medium: 100, Large: 140 } },
+                { name: 'Canton', prices: { Medium: 80, Large: 120 } },
+                { name: 'Spaghetti', prices: { Medium: 130, Large: 180 } }
+            ],
+            'Kakanin / Kalame': [
+                { name: 'Bibingkang Nasi', prices: { Medium: 50, Large: 90 } },
+                { name: 'Kopis', prices: { Medium: 90, Large: 130 } },
+                { name: 'Sampelot', prices: { 'One Size': 150 } },
+                { name: 'Tibok-Tibok', prices: { Medium: 90, Large: 130 } },
+                { name: 'Cassava Cake', prices: { Medium: 90, Large: 120 } },
+                { name: 'Pichi-Pichi', prices: { Medium: 50, Large: 80 } },
+                { name: 'Biko', prices: { Medium: 80, Large: 150 } }
+            ],
+            'Other Sweets': [
+                { name: 'Pepalto Regular', prices: { 'One Size': 60 } },
+                { name: 'Pepalto Yema', prices: { 'One Size': 80 } }
+            ]
+        };
+
+        let selectedItems = {};
+        
         // Get user ID from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('user_id');
         
-        console.log('User ID:', userId);
+        // Generate menu HTML
+        function generateMenu() {
+            const menuSection = document.getElementById('menuSection');
+            menuSection.innerHTML = '';
+            
+            Object.entries(menuData).forEach(([category, items]) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'menu-category';
+                
+                const categoryTitle = document.createElement('div');
+                categoryTitle.className = 'category-title';
+                categoryTitle.innerHTML = `
+                    <span>${category === 'Specialty Dishes' ? '🍝 Specialty Dishes' : 
+                            category === 'Kakanin / Kalame' ? '🍰 Kakanin / Kalame' : '🍬 Other Sweets'}</span>
+                    <span class="dropdown-arrow">▼</span>
+                `;
+                
+                // Add click event for dropdown
+                categoryTitle.addEventListener('click', function() {
+                    toggleCategory(this);
+                });
+                
+                categoryDiv.appendChild(categoryTitle);
+                
+                const categoryItems = document.createElement('div');
+                categoryItems.className = 'category-items';
+                
+                items.forEach(item => {
+                    const itemDiv = createMenuItem(item);
+                    categoryItems.appendChild(itemDiv);
+                });
+                
+                categoryDiv.appendChild(categoryItems);
+                menuSection.appendChild(categoryDiv);
+            });
+        }
+        
+        function toggleCategory(titleElement) {
+            const categoryDiv = titleElement.parentElement;
+            const itemsDiv = categoryDiv.querySelector('.category-items');
+            
+            // Toggle expanded class
+            titleElement.classList.toggle('expanded');
+            itemsDiv.classList.toggle('expanded');
+        }
+        
+        function createMenuItem(item) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'menu-item';
+            itemDiv.id = `item-${item.name.replace(/\s+/g, '-').toLowerCase()}`;
+            
+            const sizes = Object.keys(item.prices);
+            const defaultSize = sizes[0];
+            const defaultPrice = item.prices[defaultSize];
+            
+            itemDiv.innerHTML = `
+                <div class="item-header">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-price">QAR ${defaultPrice}</div>
+                </div>
+                <div class="item-controls">
+                    ${sizes.length > 1 ? `
+                        <select class="size-select" onchange="updatePrice('${item.name}', this.value)">
+                            ${sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
+                        </select>
+                    ` : `<span class="size-select">${defaultSize}</span>`}
+                    <div class="quantity-control">
+                        <button type="button" class="qty-btn" onclick="changeQuantity('${item.name}', -1)">−</button>
+                        <input type="number" class="qty-input" value="0" min="0" max="99" 
+                               onchange="updateQuantity('${item.name}', this.value)" readonly>
+                        <button type="button" class="qty-btn" onclick="changeQuantity('${item.name}', 1)">+</button>
+                    </div>
+                </div>
+            `;
+            
+            // Initialize item in selectedItems
+            selectedItems[item.name] = {
+                size: defaultSize,
+                quantity: 0,
+                price: defaultPrice,
+                prices: item.prices
+            };
+            
+            return itemDiv;
+        }
+        
+        function updatePrice(itemName, size) {
+            const item = selectedItems[itemName];
+            item.size = size;
+            item.price = item.prices[size];
+            
+            const itemDiv = document.getElementById(`item-${itemName.replace(/\s+/g, '-').toLowerCase()}`);
+            const priceElement = itemDiv.querySelector('.item-price');
+            priceElement.textContent = `QAR ${item.price}`;
+            
+            updateOrderSummary();
+        }
+        
+        function changeQuantity(itemName, change) {
+            const item = selectedItems[itemName];
+            const newQuantity = Math.max(0, Math.min(99, item.quantity + change));
+            
+            item.quantity = newQuantity;
+            
+            const itemDiv = document.getElementById(`item-${itemName.replace(/\s+/g, '-').toLowerCase()}`);
+            const qtyInput = itemDiv.querySelector('.qty-input');
+            qtyInput.value = newQuantity;
+            
+            // Update visual selection
+            if (newQuantity > 0) {
+                itemDiv.classList.add('selected');
+            } else {
+                itemDiv.classList.remove('selected');
+            }
+            
+            updateOrderSummary();
+        }
+        
+        function updateQuantity(itemName, value) {
+            const quantity = Math.max(0, Math.min(99, parseInt(value) || 0));
+            selectedItems[itemName].quantity = quantity;
+            
+            const itemDiv = document.getElementById(`item-${itemName.replace(/\s+/g, '-').toLowerCase()}`);
+            if (quantity > 0) {
+                itemDiv.classList.add('selected');
+            } else {
+                itemDiv.classList.remove('selected');
+            }
+            
+            updateOrderSummary();
+        }
+        
+        function updateOrderSummary() {
+            const summaryDiv = document.getElementById('orderSummary');
+            const summaryItems = document.getElementById('summaryItems');
+            const totalElement = document.getElementById('totalAmount');
+            
+            let totalAmount = 0;
+            let hasItems = false;
+            summaryItems.innerHTML = '';
+            
+            Object.entries(selectedItems).forEach(([itemName, item]) => {
+                if (item.quantity > 0) {
+                    hasItems = true;
+                    const itemTotal = item.quantity * item.price;
+                    totalAmount += itemTotal;
+                    
+                    const summaryItem = document.createElement('div');
+                    summaryItem.className = 'summary-item';
+                    summaryItem.innerHTML = `
+                        <span>${item.quantity} pcs ${item.size} ${itemName}</span>
+                        <span>QAR ${itemTotal}</span>
+                    `;
+                    summaryItems.appendChild(summaryItem);
+                }
+            });
+            
+            if (hasItems) {
+                summaryDiv.style.display = 'block';
+                totalElement.textContent = `QAR ${totalAmount}`;
+            } else {
+                summaryDiv.style.display = 'none';
+            }
+        }
         
         // Set minimum date to today
         function setMinDate() {
@@ -304,6 +760,13 @@
                 isValid = false;
             }
             
+            // Validate at least one item selected
+            const hasItems = Object.values(selectedItems).some(item => item.quantity > 0);
+            if (!hasItems) {
+                alert('Please select at least one item for your order.');
+                isValid = false;
+            }
+            
             return isValid;
         }
         
@@ -319,6 +782,24 @@
             document.getElementById('formContainer').style.display = 'none';
             document.getElementById('loading').style.display = 'block';
             
+            // Prepare order items
+            const orders = [];
+            let totalAmount = 0;
+            
+            Object.entries(selectedItems).forEach(([itemName, item]) => {
+                if (item.quantity > 0) {
+                    const itemTotal = item.quantity * item.price;
+                    totalAmount += itemTotal;
+                    orders.push({
+                        item: itemName,
+                        size: item.size,
+                        quantity: item.quantity,
+                        unit_price: item.price,
+                        total_price: itemTotal
+                    });
+                }
+            });
+            
             // Collect form data
             const formData = {
                 user_id: userId,
@@ -326,7 +807,9 @@
                 mobile: document.getElementById('mobile').value.trim(),
                 date: document.getElementById('date').value,
                 time: document.getElementById('time').value,
-                order_type: 'pickup'
+                order_type: document.querySelector('input[name="order_type"]:checked').value,
+                orders: orders,
+                total_amount: totalAmount
             };
             
             console.log('Submitting form data:', formData);
@@ -375,6 +858,7 @@
         
         // Initialize
         setMinDate();
+        generateMenu();
         
         // Load Messenger Extensions SDK
         (function(d, s, id){
