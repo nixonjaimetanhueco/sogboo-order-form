@@ -423,7 +423,6 @@
         
         <div class="form-container" id="formContainer">            
             <form id="orderForm">
-                <!-- Customer Details Section -->
                 <div class="section-title">👤 Customer Information</div>
                 
                 <div class="form-group">
@@ -464,30 +463,22 @@
                     </div>
                 </div>
                 
-                <!-- Menu Selection Section -->
                 <div class="section-title">🍽️ Select Your Items</div>
                 
                 <div class="menu-section" id="menuSection">
-                    <!-- Specialty Dishes -->
                     <div class="menu-category">
                         <div class="category-title">🍝 Specialty Dishes</div>
-                        <!-- Menu items will be dynamically generated -->
-                    </div>
+                        </div>
                     
-                    <!-- Kakanin/Kalame -->
                     <div class="menu-category">
                         <div class="category-title">🍰 Kakanin / Kalame</div>
-                        <!-- Menu items will be dynamically generated -->
-                    </div>
+                        </div>
                     
-                    <!-- Other Sweets -->
                     <div class="menu-category">
                         <div class="category-title">🍬 Other Sweets</div>
-                        <!-- Menu items will be dynamically generated -->
-                    </div>
+                        </div>
                 </div>
 
-                <!-- Order Summary -->
                 <div class="order-summary" id="orderSummary" style="display: none;">
                     <div class="summary-title">📋 Order Summary</div>
                     <div id="summaryItems"></div>
@@ -611,13 +602,13 @@
                 <div class="item-controls">
                     ${sizes.length > 1 ? `
                         <select class="size-select" onchange="updatePrice('${item.name}', this.value)">
-                            ${sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
+                            ${sizes.map(size => `<option value="<span class="math-inline">\{size\}"\></span>{size}</option>`).join('')}
                         </select>
                     ` : `<span class="size-select">${defaultSize}</span>`}
                     <div class="quantity-control">
-                        <button type="button" class="qty-btn" onclick="changeQuantity('${item.name}', -1)">−</button>
-                        <input type="number" class="qty-input" value="0" min="0" max="99" 
-                               onchange="updateQuantity('${item.name}', this.value)" readonly>
+                        <button type="button" class="qty-btn" onclick="changeQuantity('<span class="math-inline">\{item\.name\}', \-1\)"\>−</button\>
+<input type\="number" class\="qty\-input" value\="0" min\="0" max\="99" 
+onchange\="updateQuantity\('</span>{item.name}', this.value)" readonly>
                         <button type="button" class="qty-btn" onclick="changeQuantity('${item.name}', 1)">+</button>
                     </div>
                 </div>
