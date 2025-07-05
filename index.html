@@ -5,63 +5,346 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sogboo Order Form</title>
     <style>
-        /* --[ All your CSS, unchanged for brevity ]-- */
-        * {margin:0; padding:0; box-sizing:border-box;}
-        body {font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#FFF8DC; min-height:100vh; padding:20px;}
-        .container {max-width:400px; margin:0 auto; background:white; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,0.1); overflow:hidden;}
-        .header {background:#FF6B35; color:white; text-align:center; padding:30px 20px;}
-        .logo {font-size:48px; font-weight:900; margin-bottom:10px; letter-spacing:-2px; font-family:'Arial Black', Arial, sans-serif;}
-        .logo .sogboo-text {color:#1a5c2a;}
-        .logo .eyes {display:inline-block; margin:0 2px;}
-        .logo .eye {display:inline-block; width:32px; height:32px; background:white; border:4px solid #000; border-radius:50%; margin:0 1px; position:relative; vertical-align:middle;}
-        .logo .eye::after {content:''; position:absolute; width:12px; height:12px; background:#000; border-radius:50%; top:50%; right:5%; transform:translateY(-50%);}
-        .logo .eye::before {content:''; position:absolute; width:4px; height:4px; background:white; border-radius:50%; top:40%; right:10%; transform:translateY(-50%); z-index:1;}
-        .logo .dot {color:#1a5c2a; font-size:48px;}
-        .header p {opacity:0.9; font-size:14px; margin-top:5px;}
-        .form-container {padding:30px 20px; max-height:70vh; overflow-y:auto;}
-        .form-group {margin-bottom:20px;}
-        .form-group label {display:block; margin-bottom:8px; color:#333; font-weight:600; font-size:14px;}
-        .form-group input,.form-group textarea,.form-group select {width:100%; padding:12px 15px; border:2px solid #e1e1e1; border-radius:10px; font-size:16px; transition:all 0.3s ease;}
-        .form-group input:focus,.form-group textarea:focus,.form-group select:focus {outline:none; border-color:#FF6B35; box-shadow:0 0 0 3px rgba(255,107,53,0.1);}
-        .section-title {background:#f8f9fa; padding:15px; margin:20px -20px; color:#333; font-weight:700; font-size:16px; border-left:4px solid #FF6B35;}
-        .menu-section {margin-bottom:25px;}
-        .menu-category {margin-bottom:20px; border:2px solid #f0f0f0; border-radius:12px; overflow:hidden;}
-        .category-title {color:#FF6B35; font-weight:700; font-size:14px; padding:15px; background:#f8f9fa; cursor:pointer; display:flex; justify-content:space-between; align-items:center; transition:all 0.3s ease; user-select:none;}
-        .category-title:hover {background:#e9ecef;}
-        .category-title .dropdown-arrow {transition:transform 0.3s ease; font-size:16px;}
-        .category-title.expanded .dropdown-arrow {transform:rotate(180deg);}
-        .category-items {padding:0 15px; max-height:0; overflow:hidden; transition:all 0.3s ease;}
-        .category-items.expanded {max-height:1000px; padding:15px;}
-        .menu-item {background:#f8f9fa; border-radius:12px; padding:15px; margin-bottom:12px; border:2px solid transparent; transition:all 0.3s ease;}
-        .menu-item.selected {border-color:#FF6B35; background:rgba(255,107,53,0.05);}
-        .item-header {display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
-        .item-name {font-weight:600; color:#333; font-size:15px;}
-        .item-price {color:#FF6B35; font-weight:600; font-size:13px;}
-        .item-controls {display:flex; gap:10px; align-items:center;}
-        .size-select {flex:1; padding:8px 10px; border:1px solid #ddd; border-radius:6px; font-size:14px;}
-        .quantity-control {display:flex; align-items:center; gap:8px;}
-        .qty-btn {width:32px; height:32px; border:1px solid #ddd; border-radius:50%; background:white; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:600; transition:all 0.3s ease;}
-        .qty-btn:hover {background:#FF6B35; color:white; border-color:#FF6B35;}
-        .qty-btn:disabled {opacity:0.5; cursor:not-allowed;}
-        .qty-input {width:50px; text-align:center; padding:8px; border:1px solid #ddd; border-radius:6px; font-size:14px; font-weight:600;}
-        .order-summary {background:#e8f5e8; border-radius:12px; padding:15px; margin:20px 0; border-left:4px solid #28a745;}
-        .summary-title {font-weight:700; color:#333; margin-bottom:10px;}
-        .summary-item {display:flex; justify-content:space-between; margin-bottom:5px; font-size:14px;}
-        .summary-total {border-top:2px solid #28a745; padding-top:10px; margin-top:10px; font-weight:700; font-size:16px; color:#28a745;}
-        .submit-btn {width:100%; background:linear-gradient(135deg, #FF6B35, #F7931E); color:white; border:none; padding:15px; border-radius:10px; font-size:16px; font-weight:600; cursor:pointer; transition:all 0.3s ease;}
-        .submit-btn:hover {transform:translateY(-2px); box-shadow:0 10px 20px rgba(255,107,53,0.3);}
-        .submit-btn:disabled {opacity:0.6; cursor:not-allowed; transform:none;}
-        .loading {display:none; text-align:center; padding:20px;}
-        .loading .spinner {width:40px; height:40px; border:4px solid #f3f3f3; border-top:4px solid #FF6B35; border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 10px;}
-        @keyframes spin {0% {transform:rotate(0deg);} 100% {transform:rotate(360deg);}}
-        .error {color:#dc3545; font-size:14px; margin-top:5px; display:none;}
-        .success {text-align:center; padding:40px 20px; display:none;}
-        .success-icon {font-size:48px; color:#28a745; margin-bottom:20px;}
-        .order-type-group {display:flex; gap:10px; margin-top:8px;}
-        .radio-option {flex:1; position:relative;}
-        .radio-option input[type="radio"] {position:absolute; opacity:0;}
-        .radio-option label {display:block; padding:12px; border:2px solid #e1e1e1; border-radius:8px; text-align:center; cursor:pointer; transition:all 0.3s ease; font-weight:600;}
-        .radio-option input[type="radio"]:checked + label {border-color:#FF6B35; background:rgba(255,107,53,0.1); color:#FF6B35;}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #FFF8DC;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: #FF6B35;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .logo {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            font-family: 'Arial Black', Arial, sans-serif;
+        }
+        .logo .sogboo-text { color: #1a5c2a; }
+        .logo .eyes {
+            display: inline-block;
+            margin: 0 2px;
+        }
+        .logo .eye {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 4px solid #000;
+            border-radius: 50%;
+            margin: 0 1px;
+            position: relative;
+            vertical-align: middle;
+        }
+        .logo .eye::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #000;
+            border-radius: 50%;
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%);
+        }
+        .logo .eye::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            top: 40%;
+            right: 10%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        .logo .dot {
+            color: #1a5c2a;
+            font-size: 48px;
+        }
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .form-container {
+            padding: 30px 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+        .section-title {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 20px -20px;
+            color: #333;
+            font-weight: 700;
+            font-size: 16px;
+            border-left: 4px solid #FF6B35;
+        }
+        .menu-section {
+            margin-bottom: 25px;
+        }
+        .menu-category {
+            margin-bottom: 20px;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .category-title {
+            color: #FF6B35;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 15px;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .category-title:hover { background: #e9ecef; }
+        .category-title .dropdown-arrow {
+            transition: transform 0.3s ease;
+            font-size: 16px;
+        }
+        .category-title.expanded .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        .category-items {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .category-items.expanded {
+            max-height: 1000px;
+            padding: 15px;
+        }
+        .menu-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .menu-item.selected {
+            border-color: #FF6B35;
+            background: rgba(255, 107, 53, 0.05);
+        }
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .item-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+        .item-price {
+            color: #FF6B35;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .item-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .size-select {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .qty-btn:hover {
+            background: #FF6B35;
+            color: white;
+            border-color: #FF6B35;
+        }
+        .qty-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .qty-input {
+            width: 50px;
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .order-summary {
+            background: #e8f5e8;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+        .summary-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .summary-total {
+            border-top: 2px solid #28a745;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #28a745;
+        }
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+        }
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #FF6B35;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .success {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+        }
+        .success-icon {
+            font-size: 48px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .order-type-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .radio-option {
+            flex: 1;
+            position: relative;
+        }
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+        .radio-option label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        .radio-option input[type="radio"]:checked + label {
+            border-color: #FF6B35;
+            background: rgba(255, 107, 53, 0.1);
+            color: #FF6B35;
+        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -90,18 +373,6 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="date">Pickup Date</label>
-                    <input type="date" id="date" name="date" required>
-                    <div class="error" id="dateError">Please select a pickup date</div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="time">Pickup Time</label>
-                    <input type="time" id="time" name="time" required>
-                    <div class="error" id="timeError">Please select a pickup time</div>
-                </div>
-
-                <div class="form-group">
                     <label>Order Type</label>
                     <div class="order-type-group">
                         <div class="radio-option">
@@ -115,19 +386,40 @@
                     </div>
                 </div>
 
-                <!-- Delivery Address Google Link (hidden unless delivery selected) -->
-                <div class="form-group" id="addressGroup" style="display:none;">
-                    <label for="address_link">Paste your Google Maps address link here</label>
-                    <input type="url" id="address_link" name="address_link" placeholder="Paste Google Maps link for delivery">
-                    <div class="error" id="addressError">Please paste a valid Google Maps address link (starts with https://maps.app.goo.gl/ or https://goo.gl/maps/ or https://www.google.com/maps/)</div>
+                <!-- Pickup fields -->
+                <div id="pickupFields">
+                    <div class="form-group">
+                        <label for="pickup_date">Pickup Date</label>
+                        <input type="date" id="pickup_date" name="pickup_date">
+                        <div class="error" id="pickupDateError">Please select a pickup date</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pickup_time">Pickup Time</label>
+                        <input type="time" id="pickup_time" name="pickup_time">
+                        <div class="error" id="pickupTimeError">Please select a pickup time</div>
+                    </div>
+                </div>
+                <!-- Delivery fields -->
+                <div id="deliveryFields" class="hidden">
+                    <div class="form-group">
+                        <label for="delivery_date">Delivery Date</label>
+                        <input type="date" id="delivery_date" name="delivery_date">
+                        <div class="error" id="deliveryDateError">Please select a delivery date</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="delivery_time">Delivery Time</label>
+                        <input type="time" id="delivery_time" name="delivery_time">
+                        <div class="error" id="deliveryTimeError">Please select a delivery time</div>
+                    </div>
+                    <div class="form-group" id="addressGroup">
+                        <label for="address_link">Google Maps Link (Delivery Address)</label>
+                        <input type="text" id="address_link" name="address_link" placeholder="Paste your Google Maps link here">
+                        <div class="error" id="addressError">Please enter a valid Google Maps link.</div>
+                    </div>
                 </div>
                 
                 <div class="section-title">🍽️ Select Your Items</div>
-                
-                <div class="menu-section" id="menuSection">
-                    <!-- Menu items will be dynamically generated here -->
-                </div>
-
+                <div class="menu-section" id="menuSection"></div>
                 <div class="order-summary" id="orderSummary" style="display: none;">
                     <div class="summary-title">📋 Order Summary</div>
                     <div id="summaryItems"></div>
@@ -138,7 +430,6 @@
                         </div>
                     </div>
                 </div>
-                
                 <button type="submit" class="submit-btn" id="submitBtn">
                     📝 Confirm Order Details
                 </button>
@@ -156,9 +447,8 @@
             <p>Thank you! Your order details have been received.</p>
         </div>
     </div>
-
     <script>
-        // Menu data and menu rendering (same as before)...
+        // Menu data and functions ... (keep your previous menuData, createMenuItem, etc.)
         const menuData = {
             'Specialty Dishes': [
                 { name: 'Palabok', prices: { Medium: 100, Large: 150 } },
@@ -183,18 +473,22 @@
         };
 
         let selectedItems = {};
+        // ... menu, order summary and other functions as before ...
+
+        // Use the same menu, updatePrice, changeQuantity, updateOrderSummary, etc. from before
+        // ... (for brevity, not repeating here, but include all your JS functions unchanged) ...
+
+        // Get user ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('user_id');
 
-        // ... [The rest of your menu generation functions, unchanged] ...
+        // Generate menu
         function generateMenu() {
             const menuSection = document.getElementById('menuSection');
             menuSection.innerHTML = '';
-            
             Object.entries(menuData).forEach(([category, items]) => {
                 const categoryDiv = document.createElement('div');
                 categoryDiv.className = 'menu-category';
-                
                 const categoryTitle = document.createElement('div');
                 categoryTitle.className = 'category-title';
                 categoryTitle.innerHTML = `
@@ -206,6 +500,7 @@
                     toggleCategory(this);
                 });
                 categoryDiv.appendChild(categoryTitle);
+
                 const categoryItems = document.createElement('div');
                 categoryItems.className = 'category-items';
                 items.forEach(item => {
@@ -318,93 +613,94 @@
                 summaryDiv.style.display = 'none';
             }
         }
-        function setMinDate() {
+        // Set minimum date for both pickup and delivery
+        function setMinDateFor(inputId) {
             const today = new Date();
             const tomorrow = new Date(today);
             tomorrow.setDate(tomorrow.getDate() + 1);
-            const dateInput = document.getElementById('date');
-            dateInput.min = tomorrow.toISOString().split('T')[0];
+            const input = document.getElementById(inputId);
+            if (input) input.min = tomorrow.toISOString().split('T')[0];
         }
-
-        // --- Delivery field logic ---
+        setMinDateFor('pickup_date');
+        setMinDateFor('delivery_date');
+        // Toggle Pickup/Delivery fields
         const pickupRadio = document.getElementById('pickup');
         const deliveryRadio = document.getElementById('delivery');
-        const addressGroup = document.getElementById('addressGroup');
-        const addressInput = document.getElementById('address_link');
-        const addressError = document.getElementById('addressError');
-
-        function updateAddressField() {
-            if (deliveryRadio.checked) {
-                addressGroup.style.display = '';
-                addressInput.required = true;
+        const pickupFields = document.getElementById('pickupFields');
+        const deliveryFields = document.getElementById('deliveryFields');
+        function updateOrderTypeFields() {
+            if (pickupRadio.checked) {
+                pickupFields.classList.remove('hidden');
+                deliveryFields.classList.add('hidden');
             } else {
-                addressGroup.style.display = 'none';
-                addressInput.required = false;
-                addressInput.value = '';
-                addressError.style.display = 'none';
+                pickupFields.classList.add('hidden');
+                deliveryFields.classList.remove('hidden');
             }
         }
-        pickupRadio.addEventListener('change', updateAddressField);
-        deliveryRadio.addEventListener('change', updateAddressField);
-
-        // Google Maps link validation function
+        pickupRadio.addEventListener('change', updateOrderTypeFields);
+        deliveryRadio.addEventListener('change', updateOrderTypeFields);
+        updateOrderTypeFields();
+        // Google Maps link validation
         function isValidGoogleMapsLink(link) {
             return (
                 /^https:\/\/(maps\.app\.goo\.gl|goo\.gl\/maps|www\.google\.com\/maps)\//.test(link.trim())
             );
         }
-
         // Validate form
         function validateForm() {
             let isValid = true;
             document.querySelectorAll('.error').forEach(error => { error.style.display = 'none'; });
-            // Validate name
             const name = document.getElementById('name').value.trim();
             if (name.length < 2) {
                 document.getElementById('nameError').style.display = 'block';
                 isValid = false;
             }
-            // Validate mobile
             const mobile = document.getElementById('mobile').value.trim();
             if (mobile.length < 8) {
                 document.getElementById('mobileError').style.display = 'block';
                 isValid = false;
             }
-            // Validate date
-            const date = document.getElementById('date').value;
-            if (!date) {
-                document.getElementById('dateError').style.display = 'block';
-                isValid = false;
+            if (pickupRadio.checked) {
+                const pickupDate = document.getElementById('pickup_date').value;
+                const pickupTime = document.getElementById('pickup_time').value;
+                if (!pickupDate) {
+                    document.getElementById('pickupDateError').style.display = 'block';
+                    isValid = false;
+                }
+                if (!pickupTime) {
+                    document.getElementById('pickupTimeError').style.display = 'block';
+                    isValid = false;
+                }
+            } else if (deliveryRadio.checked) {
+                const deliveryDate = document.getElementById('delivery_date').value;
+                const deliveryTime = document.getElementById('delivery_time').value;
+                const addressLink = document.getElementById('address_link').value.trim();
+                if (!deliveryDate) {
+                    document.getElementById('deliveryDateError').style.display = 'block';
+                    isValid = false;
+                }
+                if (!deliveryTime) {
+                    document.getElementById('deliveryTimeError').style.display = 'block';
+                    isValid = false;
+                }
+                if (!isValidGoogleMapsLink(addressLink)) {
+                    document.getElementById('addressError').style.display = 'block';
+                    isValid = false;
+                }
             }
-            // Validate time
-            const time = document.getElementById('time').value;
-            if (!time) {
-                document.getElementById('timeError').style.display = 'block';
-                isValid = false;
-            }
-            // Validate at least one item selected
             const hasItems = Object.values(selectedItems).some(item => item.quantity > 0);
             if (!hasItems) {
                 alert('Please select at least one item for your order.');
                 isValid = false;
             }
-            // Validate Google Maps link if delivery
-            if (deliveryRadio.checked) {
-                const addressLink = addressInput.value.trim();
-                if (!isValidGoogleMapsLink(addressLink)) {
-                    addressError.style.display = 'block';
-                    isValid = false;
-                }
-            }
             return isValid;
         }
-
+        // Handle form submission
         document.getElementById('orderForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             if (!validateForm()) return;
             document.getElementById('formContainer').style.display = 'none';
             document.getElementById('loading').style.display = 'block';
-            // [unchanged: prepare order, submit data...]
             const orders = [];
             let totalAmount = 0;
             Object.entries(selectedItems).forEach(([itemName, item]) => {
@@ -420,15 +716,16 @@
                     });
                 }
             });
-            // Collect form data
             const formData = {
                 user_id: userId,
                 name: document.getElementById('name').value.trim(),
                 mobile: document.getElementById('mobile').value.trim(),
-                date: document.getElementById('date').value,
-                time: document.getElementById('time').value,
                 order_type: document.querySelector('input[name="order_type"]:checked').value,
-                address_link: deliveryRadio.checked ? addressInput.value.trim() : '',
+                pickup_date: pickupRadio.checked ? document.getElementById('pickup_date').value : '',
+                pickup_time: pickupRadio.checked ? document.getElementById('pickup_time').value : '',
+                delivery_date: deliveryRadio.checked ? document.getElementById('delivery_date').value : '',
+                delivery_time: deliveryRadio.checked ? document.getElementById('delivery_time').value : '',
+                address_link: deliveryRadio.checked ? document.getElementById('address_link').value.trim() : '',
                 orders: orders,
                 total_amount: totalAmount
             };
@@ -455,11 +752,7 @@
                 document.getElementById('formContainer').style.display = 'block';
             }
         });
-
-        setMinDate();
         generateMenu();
-        updateAddressField();
-
         (function(d, s, id){
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) {return;}
